@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4F46E5">
+    <title>Smart Attendance System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main Container -->
+    <div id="app" class="app-container">
+        <!-- Login Page -->
+        <div id="login-page" class="page active">
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="logo">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <h1>Smart Attendance</h1>
+                    <p>Face Recognition System</p>
+                </div>
+
+                <div class="login-tabs">
+                    <button class="tab-btn active" data-tab="user">User Login</button>
+                    <button class="tab-btn" data-tab="admin">Admin Login</button>
+                </div>
+
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Login</span>
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <p>Don't have an account? <a href="#" id="enroll-link">Enroll Now</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Dashboard -->
+        <div id="user-dashboard" class="page">
+            <nav class="navbar">
+                <div class="navbar-brand">Smart Attendance</div>
+                <div class="navbar-menu">
+                    <button id="user-menu-btn" class="icon-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="1"/>
+                            <circle cx="12" cy="5" r="1"/>
+                            <circle cx="12" cy="19" r="1"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="dashboard-container">
+                <div class="welcome-section">
+                    <h2 id="user-welcome">Welcome!</h2>
+                    <p id="user-subtitle">Mark your attendance easily</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-value" id="total-attendance">0</div>
+                        <div class="stat-label">Total Attendance</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-value" id="this-month">0</div>
+                        <div class="stat-label">This Month</div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <button id="mark-attendance-btn" class="btn btn-primary btn-lg btn-block">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <circle cx="12" cy="10" r="3"/>
+                            <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        <span>Mark Attendance</span>
+                    </button>
+                </div>
+
+                <div class="recent-section">
+                    <h3>Recent Attendance</h3>
+                    <div id="recent-attendance" class="attendance-list">
+                        <!-- Dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" class="page">
+            <nav class="navbar">
+                <div class="navbar-brand">Admin Panel</div>
+                <div class="navbar-menu">
+                    <button id="admin-menu-btn" class="icon-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="1"/>
+                            <circle cx="12" cy="5" r="1"/>
+                            <circle cx="12" cy="19" r="1"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="dashboard-container">
+                <div class="tabs-container">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+                        <button class="tab-button" data-tab="enrollments">Enrollments</button>
+                        <button class="tab-button" data-tab="users">Users</button>
+                        <button class="tab-button" data-tab="attendance">Attendance</button>
+                    </div>
+
+                    <!-- Dashboard Tab -->
+                    <div class="tab-content active" data-content="dashboard">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">👥</div>
+                                <div class="stat-value" id="admin-total-users">0</div>
+                                <div class="stat-label">Total Users</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">✅</div>
+                                <div class="stat-value" id="admin-enrolled-users">0</div>
+                                <div class="stat-label">Enrolled Users</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">⏳</div>
+                                <div class="stat-value" id="admin-pending">0</div>
+                                <div class="stat-label">Pending Requests</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📋</div>
+                                <div class="stat-value" id="admin-today-attendance">0</div>
+                                <div class="stat-label">Today's Attendance</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enrollments Tab -->
+                    <div class="tab-content" data-content="enrollments">
+                        <div class="section-header">
+                            <h3>Enrollment Requests</h3>
+                            <select id="enrollment-filter" class="filter-select">
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="all">All</option>
+                            </select>
+                        </div>
+                        <div id="enrollments-list" class="data-list">
+                            <!-- Dynamically loaded -->
+                        </div>
+                    </div>
+
+                    <!-- Users Tab -->
+                    <div class="tab-content" data-content="users">
+                        <div class="section-header">
+                            <h3>Registered Users</h3>
+                            <input type="search" id="user-search" class="search-input" placeholder="Search users...">
+                        </div>
+                        <div id="users-list" class="data-list">
+                            <!-- Dynamically loaded -->
+                        </div>
+                    </div>
+
+                    <!-- Attendance Tab -->
+                    <div class="tab-content" data-content="attendance">
+                        <div class="section-header">
+                            <h3>Attendance Records</h3>
+                            <input type="date" id="attendance-date" class="date-input">
+                        </div>
+                        <div id="attendance-list" class="data-list">
+                            <!-- Dynamically loaded -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Super Admin Dashboard -->
+        <div id="super-admin-dashboard" class="page">
+            <nav class="navbar">
+                <div class="navbar-brand">Super Admin Panel</div>
+                <div class="navbar-menu">
+                    <button id="super-admin-menu-btn" class="icon-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="1"/>
+                            <circle cx="12" cy="5" r="1"/>
+                            <circle cx="12" cy="19" r="1"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="dashboard-container">
+                <div class="tabs-container">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" data-tab="super-dashboard">Dashboard</button>
+                        <button class="tab-button" data-tab="admins">Admins</button>
+                        <button class="tab-button" data-tab="system">System</button>
+                        <button class="tab-button" data-tab="logs">Logs</button>
+                    </div>
+
+                    <!-- Super Dashboard Tab -->
+                    <div class="tab-content active" data-content="super-dashboard">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">🔐</div>
+                                <div class="stat-value" id="super-total-admins">0</div>
+                                <div class="stat-label">Total Admins</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">👥</div>
+                                <div class="stat-value" id="super-total-users">0</div>
+                                <div class="stat-label">Total Users</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🎯</div>
+                                <div class="stat-value" id="super-enrolled">0</div>
+                                <div class="stat-label">Enrolled</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📊</div>
+                                <div class="stat-value" id="super-index-size">0</div>
+                                <div class="stat-label">FAISS Index</div>
+                            </div>
+                        </div>
+
+                        <div class="action-section">
+                            <button id="rebuild-index-btn" class="btn btn-warning">
+                                Rebuild FAISS Index
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Admins Tab -->
+                    <div class="tab-content" data-content="admins">
+                        <div class="section-header">
+                            <h3>Admin Management</h3>
+                            <button id="create-admin-btn" class="btn btn-primary">Create Admin</button>
+                        </div>
+                        <div id="admins-list" class="data-list">
+                            <!-- Dynamically loaded -->
+                        </div>
+                    </div>
+
+                    <!-- System Tab -->
+                    <div class="tab-content" data-content="system">
+                        <h3>System Settings</h3>
+                        <div id="system-settings" class="settings-container">
+                            <!-- Settings will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Logs Tab -->
+                    <div class="tab-content" data-content="logs">
+                        <div class="section-header">
+                            <h3>System Logs</h3>
+                            <select id="log-filter" class="filter-select">
+                                <option value="">All Actions</option>
+                                <option value="login">Logins</option>
+                                <option value="enrollment">Enrollments</option>
+                                <option value="admin">Admin Actions</option>
+                            </select>
+                        </div>
+                        <div id="logs-list" class="data-list">
+                            <!-- Dynamically loaded -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enrollment Page -->
+        <div id="enrollment-page" class="page">
+            <nav class="navbar">
+                <button id="back-to-login" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <div class="navbar-brand">Enrollment</div>
+            </nav>
+
+            <div class="enrollment-container">
+                <form id="enrollment-form" class="enrollment-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-group">
+                            <label for="enroll-name">Full Name *</label>
+                            <input type="text" id="enroll-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enroll-email">Email *</label>
+                            <input type="email" id="enroll-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enroll-password">Password *</label>
+                            <input type="password" id="enroll-password" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="enroll-employee-id">Employee ID</label>
+                            <input type="text" id="enroll-employee-id">
+                        </div>
+                        <div class="form-group">
+                            <label for="enroll-department">Department</label>
+                            <input type="text" id="enroll-department">
+                        </div>
+                        <div class="form-group">
+                            <label for="enroll-phone">Phone</label>
+                            <input type="tel" id="enroll-phone">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Face Registration</h3>
+                        <p class="help-text">Capture at least 3 photos of your face from different angles</p>
+                        
+                        <div id="captured-images" class="captured-images">
+                            <!-- Images will appear here -->
+                        </div>
+
+                        <button type="button" id="capture-photo-btn" class="btn btn-primary btn-block">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                <circle cx="12" cy="13" r="4"/>
+                            </svg>
+                            <span>Capture Photo</span>
+                        </button>
+
+                        <p class="image-count">Images captured: <span id="image-count">0</span> / 10</p>
+                    </div>
+
+                    <button type="submit" id="submit-enrollment" class="btn btn-success btn-block" disabled>
+                        Submit Enrollment Request
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Camera Modal -->
+        <div id="camera-modal" class="modal">
+            <div class="modal-content camera-modal">
+                <div class="modal-header">
+                    <h3>Capture Photo</h3>
+                    <button class="modal-close" id="close-camera">×</button>
+                </div>
+                <div class="camera-container">
+                    <video id="camera-video" autoplay playsinline></video>
+                    <canvas id="camera-canvas" style="display:none;"></canvas>
+                    
+                    <div class="camera-overlay">
+                        <div class="face-guide"></div>
+                    </div>
+
+                    <div class="camera-controls">
+                        <button id="switch-camera" class="icon-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 8l4-4m0 0l-4-4m4 4H7a4 4 0 0 0-4 4v10"/>
+                            </svg>
+                        </button>
+                        <button id="capture-btn" class="btn btn-primary btn-lg">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                        </button>
+                        <button id="cancel-camera" class="icon-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="camera-tips">
+                        <p>💡 Ensure good lighting and face the camera directly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Camera Modal -->
+        <div id="attendance-camera-modal" class="modal">
+            <div class="modal-content camera-modal">
+                <div class="modal-header">
+                    <h3>Mark Attendance</h3>
+                    <button class="modal-close" id="close-attendance-camera">×</button>
+                </div>
+                <div class="camera-container">
+                    <video id="attendance-video" autoplay playsinline></video>
+                    <canvas id="attendance-canvas" style="display:none;"></canvas>
+                    
+                    <div class="camera-overlay">
+                        <div class="face-guide"></div>
+                    </div>
+
+                    <div class="camera-controls">
+                        <button id="switch-attendance-camera" class="icon-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 8l4-4m0 0l-4-4m4 4H7a4 4 0 0 0-4 4v10"/>
+                            </svg>
+                        </button>
+                        <button id="capture-attendance-btn" class="btn btn-primary btn-lg">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                        </button>
+                        <button id="cancel-attendance-camera" class="icon-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="check-type-selector">
+                        <label>
+                            <input type="radio" name="check-type" value="in" checked>
+                            <span>Check In</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="check-type" value="out">
+                            <span>Check Out</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/camera.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/user-dashboard.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+    <script src="js/super-admin-dashboard.js"></script>
+    <script src="js/enrollment.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

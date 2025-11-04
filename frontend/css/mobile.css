@@ -1,0 +1,309 @@
+
+@media (max-width: 640px) {
+    :root {
+        --spacing-lg: 1rem;
+        --spacing-xl: 1.5rem;
+        --spacing-2xl: 2rem;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    /* Toast on mobile */
+    .toast-container {
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        left: var(--spacing-sm);
+        max-width: none;
+    }
+
+    .toast {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: var(--spacing-md);
+    }
+
+    .navbar-brand {
+        font-size: 1.125rem;
+    }
+
+    /* Login page */
+    .login-container {
+        padding: var(--spacing-lg);
+    }
+
+    .login-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .logo svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .login-form {
+        padding: var(--spacing-lg);
+    }
+
+    /* Dashboard */
+    .dashboard-container {
+        padding: var(--spacing-lg);
+    }
+
+    .welcome-section h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .stat-card {
+        padding: var(--spacing-md);
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+    }
+
+    /* Tabs */
+    .tab-buttons {
+        gap: 0;
+    }
+
+    .tab-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+    }
+
+    .tab-content {
+        padding: var(--spacing-lg);
+    }
+
+    /* Section header */
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .section-header h3 {
+        font-size: 1.125rem;
+    }
+
+    .search-input {
+        min-width: 100%;
+    }
+
+    /* Forms */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-lg {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+    }
+
+    /* Enrollment page */
+    .enrollment-container {
+        padding: var(--spacing-md);
+    }
+
+    .enrollment-form {
+        padding: var(--spacing-lg);
+    }
+
+    .form-section h3 {
+        font-size: 1.125rem;
+    }
+
+    .captured-images {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    /* Modal */
+    .modal {
+        padding: 0;
+    }
+
+    .modal-content {
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        height: 100vh;
+    }
+
+    .camera-modal {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .camera-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #camera-video,
+    #attendance-video {
+        flex: 1;
+        object-fit: cover;
+    }
+
+    .face-guide {
+        width: 200px;
+        height: 250px;
+    }
+
+    .camera-controls {
+        padding: var(--spacing-lg);
+    }
+
+    /* Data items */
+    .data-item,
+    .attendance-item {
+        padding: var(--spacing-md);
+    }
+
+    .attendance-item-header {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+
+    .attendance-item-details {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+}
+
+/* Medium devices (tablets, 641px to 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-container {
+        padding: var(--spacing-xl);
+    }
+
+    .tab-content {
+        padding: var(--spacing-xl);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    .btn,
+    .icon-btn,
+    .tab-button,
+    .tab-btn {
+        min-height: 44px;
+    }
+
+    /* Remove hover effects on touch devices */
+    .btn:hover,
+    .icon-btn:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+
+    /* Better tap highlighting */
+    * {
+        -webkit-tap-highlight-color: rgba(79, 70, 229, 0.1);
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+    .camera-modal .modal-content {
+        max-height: 100vh;
+    }
+
+    .face-guide {
+        width: 150px;
+        height: 200px;
+    }
+
+    .camera-overlay {
+        bottom: 60px;
+    }
+
+    .camera-controls {
+        padding: var(--spacing-md);
+    }
+}
+
+/* Very small devices */
+@media (max-width: 360px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .login-tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+    }
+
+    .captured-images {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Safe area insets for notched devices (iOS) */
+@supports (padding-top: env(safe-area-inset-top)) {
+    .navbar {
+        padding-top: calc(var(--spacing-md) + env(safe-area-inset-top));
+    }
+
+    .modal-content {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .camera-controls {
+        padding-bottom: calc(var(--spacing-xl) + env(safe-area-inset-bottom));
+    }
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .action-section,
+    .btn,
+    .modal {
+        display: none !important;
+    }
+
+    .page {
+        min-height: auto;
+    }
+
+    .dashboard-container {
+        max-width: 100%;
+    }
+}
