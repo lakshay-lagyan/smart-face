@@ -1,0 +1,6 @@
+frontend/
+*.md
+.git/
+.gitignore
+DEPLOYMENT.md
+QUICKSTART.md
